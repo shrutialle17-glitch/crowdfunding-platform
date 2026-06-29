@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-highlight: var(--color-highlight);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-border: var(--color-border);
+
+  --font-heading: Poppins, sans-serif;
+  --font-body: Inter, sans-serif;
+
+  --shadow-warm-sm: 0 1px 2px 0 rgba(198, 93, 59, 0.05);
+  --shadow-warm-md: 0 4px 6px -1px rgba(198, 93, 59, 0.1), 0 2px 4px -1px rgba(198, 93, 59, 0.06);
+  --shadow-warm-lg: 0 10px 15px -3px rgba(198, 93, 59, 0.1), 0 4px 6px -2px rgba(198, 93, 59, 0.05);
+
+  --radius-xl: 12px;
+  --radius-2xl: 18px;
+  --radius-3xl: 20px;
+}
+
+@layer base {
+  :root {
+    --color-background: #FAF7F2;
+    --color-surface: #FFFFFF;
+    --color-primary: #C65D3B;
+    --color-primary-hover: #A94B2D;
+    --color-secondary: #243B53;
+    --color-accent: #7D9D72;
+    --color-highlight: #D4A017;
+    --color-text-primary: #2F2F2F;
+    --color-text-secondary: #6B7280;
+    --color-border: #E8E5DF;
+  }
+
+  .dark {
+    --color-background: #1A1714;
+    --color-surface: #252220;
+    --color-primary: #D9694A;
+    --color-primary-hover: #C65D3B;
+    --color-secondary: #3A5275;
+    --color-accent: #8FAE83;
+    --color-highlight: #E0B23A;
+    --color-text-primary: #F2EFE9;
+    --color-text-secondary: #A8A39A;
+    --color-border: #38342F;
+  }
+
+  body {
+    @apply bg-background text-text-primary font-body antialiased transition-colors duration-200;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold text-text-primary;
+  }
+}
+
+@layer utilities {
+  .text-display {
+    @apply text-5xl md:text-6xl font-bold leading-tight;
+  }
+  .text-h1 {
+    @apply text-4xl md:text-5xl font-bold leading-tight;
+  }
+  .text-h2 {
+    @apply text-3xl md:text-4xl font-semibold leading-snug;
+  }
+  .text-h3 {
+    @apply text-2xl md:text-3xl font-semibold leading-snug;
+  }
+  .text-h4 {
+    @apply text-xl md:text-2xl font-semibold leading-snug;
+  }
+  .text-body {
+    @apply text-base leading-relaxed;
+  }
+  .text-caption {
+    @apply text-sm leading-normal text-text-secondary;
+  }
+}
