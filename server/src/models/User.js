@@ -17,6 +17,8 @@ const userSchema = new mongoose.Schema({
   trustScore: { type: Number, default: 0 },
   kycStatus: { type: String, enum: ['not_submitted', 'pending', 'approved', 'rejected'], default: 'not_submitted' },
   followedCreators: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+  likedCampaigns: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Campaign'}],
   bookmarkedCampaigns: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Campaign' }],
   recentlyViewed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Campaign' }],
   badges: [{ type: String }],
