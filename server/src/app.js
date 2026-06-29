@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/authRoutes');
-
+const donationRoutes = require('./routes/donationRoutes');
 
 const app = express();
 
@@ -30,7 +30,8 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
-
+app.use('/api/v1/donations', donationRoutes);
+app.use('/api/v1', donationRoutes);
 // Base route
 app.get('/', (req, res) => {
   res.json({ success: true, message: 'KindFund API is running' });
