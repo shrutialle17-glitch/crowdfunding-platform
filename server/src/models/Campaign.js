@@ -62,7 +62,7 @@ const campaignSchema = new mongoose.Schema({
   timeline: [timelineSchema],
   milestones: [milestoneSchema],
   featured: { type: Boolean, default: false },
-  likeCount: { type: Number, default: 0 },
+  likes: { type: Number, default: 0 },
   bookmarkCount: { type: Number, default: 0 }
 }, { timestamps: true });
 

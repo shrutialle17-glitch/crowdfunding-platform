@@ -1,7 +1,7 @@
 const Comment = require('../models/Comment');
 const Campaign = require('../models/Campaign');
-/* const { calculateTrustScore } = require('../services/trustScoreService');
-const Notification = require('../models/Notification');*/
+//const { calculateTrustScore } = require('../services/trustScoreService');
+const Notification = require('../models/Notification');
 
 exports.getComments = async (req, res, next) => {
   try {

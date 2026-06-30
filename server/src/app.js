@@ -8,6 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const donationRoutes = require('./routes/donationRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const socialRoutes = require('./routes/socialRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 const app = express();
 
@@ -35,7 +36,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1', donationRoutes);
 app.use('/api/v1', commentRoutes);
 app.use('/api/v1', socialRoutes);
-
+app.use('/api/v1', notificationRoutes);
 // Base route
 app.get('/', (req, res) => {
   res.json({ success: true, message: 'KindFund API is running' });
