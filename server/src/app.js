@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/authRoutes');
-
+const campaignRoutes = require('./routes/campaignRoutes');
 
 const app = express();
 
@@ -30,6 +30,7 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/campaigns', campaignRoutes);
 
 // Base route
 app.get('/', (req, res) => {
