@@ -16,12 +16,12 @@ app.use(cors({
   credentials: true
 }));
 
-// Rate limiting
+/* Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000 // increased from 100 for local development testing
 });
-app.use('/api/', limiter);
+app.use('/api/', limiter);*/
 
 // Parsing Middlewares
 app.use(express.json());
