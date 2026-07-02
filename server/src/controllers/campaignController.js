@@ -166,7 +166,7 @@ exports.updateCampaign = async (req, res, next) => {
       updateData.coverImage = coverImageUpload;
     }
 
-    const updatedCampaign = await Campaign.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    const updatedCampaign = await Campaign.findByIdAndUpdate(req.params.id, updateData, { returnDocument: 'after' });
     res.status(200).json({ success: true, data: updatedCampaign });
   } catch (error) {
     next(error);
@@ -204,7 +204,7 @@ exports.deleteCampaign = async (req, res, next) => {
 // Admin endpoints
 exports.approveCampaign = async (req, res, next) => {
   try {
-    const campaign = await Campaign.findByIdAndUpdate(req.params.id, { status: 'approved' }, { new: true });
+    const campaign = await Campaign.findByIdAndUpdate(req.params.id, { status: 'approved' }, { returnDocument: 'after' });
     
     await AdminLog.create({
       adminId: req.user.id,
@@ -225,7 +225,7 @@ exports.rejectCampaign = async (req, res, next) => {
     if (!reason) {
        return res.status(400).json({ success: false, error: { message: 'Rejection reason required', code: 'BAD_REQUEST' } });
     }
-    const campaign = await Campaign.findByIdAndUpdate(req.params.id, { status: 'rejected', rejectionReason: reason }, { new: true });
+    const campaign = await Campaign.findByIdAndUpdate(req.params.id, { status: 'rejected', rejectionReason: reason }, { returnDocument: 'after' });
     
     await AdminLog.create({
       adminId: req.user.id,

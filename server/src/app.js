@@ -4,8 +4,11 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const errorHandler = require('./middleware/errorHandler');
+
 const authRoutes = require('./routes/authRoutes');
 const campaignRoutes = require('./routes/campaignRoutes');
+const updateRoutes = require('./routes/updateRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 
@@ -31,6 +34,8 @@ app.use(cookieParser());
 // Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/campaigns', campaignRoutes);
+app.use('/api/v1/updates', updateRoutes);
+app.use('/api/v1/dashboard', dashboardRoutes);
 
 // Base route
 app.get('/', (req, res) => {
