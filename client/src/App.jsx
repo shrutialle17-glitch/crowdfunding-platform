@@ -12,6 +12,7 @@ import { UserCircle } from 'lucide-react';
 import { DonorDashboard } from './pages/dashboard/DonorDashboard';
 import { DonorHistory } from './pages/dashboard/DonorHistory';
 import { DonorSettings } from './pages/dashboard/DonorSettings';
+import { Explore } from './pages/Explore';
 
 const queryClient = new QueryClient();
 
@@ -98,7 +99,7 @@ function App() {
             <main className="flex-1 flex flex-col">
               <Routes>
                 <Route path="/" element={<Landing />} />
-
+                <Route path="/explore" element={<Explore />} />
                 {/* Auth Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

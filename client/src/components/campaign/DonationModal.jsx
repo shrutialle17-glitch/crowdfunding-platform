@@ -11,7 +11,7 @@ export const DonationModal = ({ isOpen, onClose, campaign, onSuccess }) => {
   const [amount, setAmount] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState('form'); // form, success
+  const [step, setStep] = useState('form'); 
   const [receiptId, setReceiptId] = useState(null);
 
   const handleDonate = async (e) => {
@@ -28,7 +28,7 @@ export const DonationModal = ({ isOpen, onClose, campaign, onSuccess }) => {
         isAnonymous
       });
 
-      setReceiptId(res.data.data._id); // Assuming we can use this to download later
+      setReceiptId(res.data.data._id); 
       setStep('success');
       if (onSuccess) onSuccess();
     } catch (error) {
