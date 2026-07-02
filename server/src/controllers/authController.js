@@ -41,7 +41,7 @@ exports.register = async (req, res, next) => {
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict',
+      sameSite: 'Lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
@@ -84,7 +84,7 @@ exports.login = async (req, res, next) => {
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict',
+      sameSite: 'Lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 
     });
 
@@ -103,12 +103,14 @@ exports.login = async (req, res, next) => {
 exports.refresh = async (req, res, next) => {
   try {
     const cookies = req.cookies;
+    
     if (!cookies?.jwt) {
       return res.status(401).json({ success: false, error: { message: 'Unauthorized', code: 'UNAUTHORIZED' } });
     }
     const refreshToken = cookies.jwt;
 
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    
     
     const user = await User.findById(decoded.id);
     if (!user || !user.refreshToken) {
@@ -129,7 +131,7 @@ exports.refresh = async (req, res, next) => {
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict',
+      sameSite: 'Lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 
     });
 
@@ -168,7 +170,7 @@ exports.logout = async (req, res, next) => {
       // Ignore if token is already expired/invalid during logout
     }
 
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'Strict', secure: process.env.NODE_ENV === 'production' });
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'Lax', secure: process.env.NODE_ENV === 'production' });
     res.status(200).json({ success: true, data: { message: 'Logged out successfully' } });
   } catch (error) {
     next(error);

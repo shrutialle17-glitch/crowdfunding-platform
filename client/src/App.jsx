@@ -2,7 +2,14 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ProtectedRoute, RoleRoute } from './components/layout/ProtectedRoute';
-import  {Landing} from './pages/Landing';
+import  { Landing } from './pages/Landing';
+import { Explore } from './pages/Explore';
+import { Leaderboard } from './pages/Leaderboard';
+import { CampaignDetail } from './pages/CampaignDetail';
+
+import { CreateCampaign } from './pages/CreateCampaign';
+import { CreatorDashboard } from './pages/dashboard/CreatorDashboard';
+
 import { Login } from './pages/auth/Login';
 import { Register } from './pages/auth/Register';
 import { NotificationDropdown } from './components/layout/NotificationDropdown';
@@ -95,6 +102,13 @@ function App() {
             <main className="flex-1 flex flex-col">
               <Routes>
                 <Route path="/" element={<Landing />} />
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/campaigns/:id" element={<CampaignDetail />} />
+
+                <Route path="/create" element={<RoleRoute allowedRoles={['creator']}><CreateCampaign /></RoleRoute>} />
+                <Route path="/creator" element={<RoleRoute allowedRoles={['creator']}><CreatorDashboard /></RoleRoute>} />
+
                 
                 {/* Auth Routes */}
                 <Route path="/login" element={<Login />} />

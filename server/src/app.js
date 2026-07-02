@@ -10,6 +10,8 @@ const campaignRoutes = require('./routes/campaignRoutes');
 const updateRoutes = require('./routes/updateRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 
+const userRoutes = require('./routes/userRoutes');
+
 const app = express();
 
 // Security Middlewares
@@ -19,12 +21,12 @@ app.use(cors({
   credentials: true
 }));
 
-/* Rate limiting
+// Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000 // increased from 100 for local development testing
 });
-app.use('/api/', limiter);*/
+app.use('/api/', limiter);
 
 // Parsing Middlewares
 app.use(express.json());
@@ -36,6 +38,8 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/campaigns', campaignRoutes);
 app.use('/api/v1/updates', updateRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
+
+app.use('/api/v1/users', userRoutes);
 
 // Base route
 app.get('/', (req, res) => {
