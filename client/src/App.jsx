@@ -9,6 +9,7 @@ import { NotificationDropdown } from './components/layout/NotificationDropdown';
 import { Footer } from './components/layout/Footer';
 import { Button } from './components/ui/Button';
 import { UserCircle } from 'lucide-react';
+import { CampaignDetail } from './pages/CampaignDetail';
 import { DonorDashboard } from './pages/dashboard/DonorDashboard';
 import { DonorHistory } from './pages/dashboard/DonorHistory';
 import { DonorSettings } from './pages/dashboard/DonorSettings';
@@ -100,6 +101,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/explore" element={<Explore />} />
+                <Route path="/campaigns/:id" element={<CampaignDetail />} />
                 {/* Auth Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
