@@ -9,6 +9,13 @@ import { CampaignDetail } from './pages/CampaignDetail';
 
 import { CreateCampaign } from './pages/CreateCampaign';
 import { CreatorDashboard } from './pages/dashboard/CreatorDashboard';
+import { CreatorCampaigns } from './pages/dashboard/CreatorCampaigns';
+import { EditCampaign } from './pages/dashboard/EditCampaign';
+import { CreatorAnalytics } from './pages/dashboard/CreatorAnalytics';
+import { CreatorSupporters } from './pages/dashboard/CreatorSupporters';
+import { CreatorKYC } from './pages/dashboard/CreatorKYC';
+import { CreatorUpdates } from './pages/dashboard/CreatorUpdates';
+
 
 import { Login } from './pages/auth/Login';
 import { Register } from './pages/auth/Register';
@@ -108,7 +115,12 @@ function App() {
 
                 <Route path="/create" element={<RoleRoute allowedRoles={['creator']}><CreateCampaign /></RoleRoute>} />
                 <Route path="/creator" element={<RoleRoute allowedRoles={['creator']}><CreatorDashboard /></RoleRoute>} />
-
+                <Route path="/creator/campaigns" element={<RoleRoute allowedRoles={['creator']}><CreatorCampaigns /></RoleRoute>} />
+                <Route path="/creator/campaigns/:id/edit" element={<RoleRoute allowedRoles={['creator']}><EditCampaign /></RoleRoute>} />
+                <Route path="/creator/updates" element={<RoleRoute allowedRoles={['creator']}><CreatorUpdates /></RoleRoute>} />
+                <Route path="/creator/analytics" element={<RoleRoute allowedRoles={['creator']}><CreatorAnalytics /></RoleRoute>} />
+                <Route path="/creator/supporters" element={<RoleRoute allowedRoles={['creator']}><CreatorSupporters /></RoleRoute>} />
+                <Route path="/creator/kyc" element={<RoleRoute allowedRoles={['creator']}><CreatorKYC /></RoleRoute>} />
                 
                 {/* Auth Routes */}
                 <Route path="/login" element={<Login />} />

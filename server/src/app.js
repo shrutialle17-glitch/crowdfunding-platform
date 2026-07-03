@@ -11,6 +11,7 @@ const updateRoutes = require('./routes/updateRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const userRoutes = require('./routes/userRoutes');
+const leaderboardRoutes = require('./routes/leaderboardRoutes');
 
 const app = express();
 
@@ -40,6 +41,8 @@ app.use('/api/v1/updates', updateRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
 
 app.use('/api/v1/users', userRoutes);
+
+app.use('/api/v1/leaderboard', leaderboardRoutes);
 
 // Base route
 app.get('/', (req, res) => {
