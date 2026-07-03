@@ -102,6 +102,7 @@ function App() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/explore" element={<Explore />} />
                 <Route path="/campaigns/:id" element={<CampaignDetail />} />
+                
                 {/* Auth Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
