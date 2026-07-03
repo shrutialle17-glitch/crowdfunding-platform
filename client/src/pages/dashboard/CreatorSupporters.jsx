@@ -4,7 +4,8 @@ import api from '../../api/axios';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { User as UserIcon, Heart, Star } from 'lucide-react';
+import { User as UserIcon, Heart, Star, Download } from 'lucide-react';
+import { Button } from '../../components/ui/Button';
 
 export const CreatorSupporters = () => {
   const { data: supporters, isLoading } = useQuery({
@@ -15,17 +16,56 @@ export const CreatorSupporters = () => {
     }
   });
 
+  const handleExportCSV = () => {
+    if (!supporters || supporters.length === 0) return;
+    
+    const headers = ['Name', 'Email', 'Total Donated', 'Contributions', 'Last Donated', 'Is Anonymous'];
+    const csvRows = [headers.join(',')];
+    
+    supporters.forEach(supp => {
+      const row = [
+        `"${supp.name.replace(/"/g, '""')}"`,
+        `"${supp.email.replace(/"/g, '""')}"`,
+        supp.totalDonated,
+        supp.contributionsCount,
+        `"${new Date(supp.lastDonated).toISOString()}"`,
+        supp.isAnonymous
+      ];
+      csvRows.push(row.join(','));
+    });
+    
+    const csvString = csvRows.join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'supporters.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <DashboardLayout role="creator">
       <div className="space-y-6">
-        <div>
-          <h2 className="text-h2">My Supporters</h2>
-          <p className="text-body text-text-secondary mt-1">A detailed directory of the generous people backing your campaigns.</p>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 className="text-h2">My Supporters</h2>
+            <p className="text-body text-text-secondary mt-1">A detailed directory of the generous people backing your campaigns.</p>
+          </div>
+          <Button 
+            onClick={handleExportCSV} 
+            disabled={!supporters || supporters.length === 0}
+            className="flex items-center gap-2"
+          >
+            <Download className="w-4 h-4" />
+            Download CSV
+          </Button>
         </div>
 
         <Card className="overflow-hidden border border-border bg-surface">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[700px]">
+            <table className="w-full text-left border-collapse min-w-700px">
               <thead>
                 <tr className="bg-background/50 border-b border-border">
                   <th className="px-6 py-4 text-sm font-semibold text-text-secondary uppercase tracking-wider">Supporter</th>

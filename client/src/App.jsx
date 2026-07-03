@@ -22,13 +22,25 @@ import { Register } from './pages/auth/Register';
 import { NotificationDropdown } from './components/layout/NotificationDropdown';
 import { Footer } from './components/layout/Footer';
 import { Button } from './components/ui/Button';
-import { UserCircle } from 'lucide-react';
+import { UserCircle, Sun, Moon } from 'lucide-react';
+import { useDarkMode } from './hooks/useDarkMode';
 
 const queryClient = new QueryClient();
 
 // Extracted Navbar to use auth hooks
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const [isDark, setIsDark] = useDarkMode();
+  
+  const DarkModeToggle = () => (
+    <button 
+      onClick={() => setIsDark(!isDark)}
+      className="p-2 rounded-xl text-text-secondary hover:text-primary hover:bg-background transition-colors"
+      title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+    >
+      {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+    </button>
+  );
   
   return (
     <header className="px-6 py-4 bg-surface border-b border-border shadow-warm-sm flex justify-between items-center sticky top-0 z-40">
@@ -81,6 +93,7 @@ const Navbar = () => {
             )}
             <Link to={user.role === 'donor' ? '/donor' : '/creator'} className="text-sm text-text-secondary hover:text-primary transition-colors">Dashboard</Link>
             
+            <DarkModeToggle />
             <div className="h-4 w-px bg-border mx-2"></div>
             <NotificationDropdown />
             <div className="h-4 w-px bg-border mx-2"></div>
