@@ -20,4 +20,5 @@ router.get('/users/me/donations', auth, getUserDonations); */
 
 // Receipts
 router.get('/donations/:id/receipt', auth, downloadReceipt); 
+
 module.exports = router;

@@ -1,6 +1,7 @@
 const Donation = require('../models/Donation');
 const Campaign = require('../models/Campaign');
 const receiptService = require('../services/receiptService');
+const notificationService = require('../services/notificationService');
 const crypto = require('crypto');
 
 exports.createDonation = async (req, res, next) => {
@@ -30,6 +31,14 @@ exports.createDonation = async (req, res, next) => {
     // Mock Payment
     campaign.amountRaised += Number(amount);
     await campaign.save();
+  
+    await notificationService.createNotification({
+      userId: campaign.creator,
+      type: 'donation',
+      title: 'New Donation Received!',
+      message: `Someone just donated ₹${donation.amount.toLocaleString()} to your campaign: ${campaign.title}.`,
+      link: `/campaigns/${campaign._id}`
+    });
 
     res.status(201).json({
       success: true,
