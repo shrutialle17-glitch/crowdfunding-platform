@@ -2,7 +2,7 @@ const Campaign = require('../models/Campaign');
 const AdminLog = require('../models/AdminLog');
 const User = require('../models/User');
 const cloudinaryService = require('../services/cloudinaryService');
-//const notificationService = require('../services/notificationService');
+const notificationService = require('../services/notificationService');
 
 exports.getCampaigns = async (req, res, next) => {
   try {

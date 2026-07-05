@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ProtectedRoute, RoleRoute } from './components/layout/ProtectedRoute';
+
 import  { Landing } from './pages/Landing';
 import { Explore } from './pages/Explore';
 import { Leaderboard } from './pages/Leaderboard';
@@ -25,6 +26,12 @@ import { Button } from './components/ui/Button';
 import { UserCircle, Sun, Moon } from 'lucide-react';
 import { useDarkMode } from './hooks/useDarkMode';
 
+
+import { DonorDashboard } from './pages/dashboard/DonorDashboard';
+import { DonorHistory } from './pages/dashboard/DonorHistory';
+import { DonorSettings } from './pages/dashboard/DonorSettings';
+
+
 const queryClient = new QueryClient();
 
 // Extracted Navbar to use auth hooks
@@ -45,7 +52,7 @@ const Navbar = () => {
   return (
     <header className="px-6 py-4 bg-surface border-b border-border shadow-warm-sm flex justify-between items-center sticky top-0 z-40">
       <Link to="/"><h1 className="text-h3 text-primary font-heading font-bold">KindFund</h1></Link>
-      
+
       <nav className="hidden md:flex gap-6 items-center">
         {!user && (
           <>
@@ -72,7 +79,7 @@ const Navbar = () => {
             <div className="h-4 w-px bg-border mx-2"></div>
             <NotificationDropdown />
             <div className="h-4 w-px bg-border mx-2"></div>
-            
+
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 text-text-secondary" title={user.name}>
                 <UserCircle className="w-5 h-5 text-primary" />
@@ -97,7 +104,7 @@ const Navbar = () => {
             <div className="h-4 w-px bg-border mx-2"></div>
             <NotificationDropdown />
             <div className="h-4 w-px bg-border mx-2"></div>
-            
+
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 text-text-secondary" title={user.name}>
                 <UserCircle className="w-5 h-5 text-primary" />
@@ -138,6 +145,11 @@ function App() {
                 {/* Auth Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+
+                {/*Donor Routes */}
+                <Route path="/donor" element={<RoleRoute allowedRoles={['donor']}><DonorDashboard /></RoleRoute>} />
+                <Route path="/donor/history" element={<RoleRoute allowedRoles={['donor']}><DonorHistory /></RoleRoute>} />
+                <Route path="/donor/settings" element={<RoleRoute allowedRoles={['donor']}><DonorSettings /></RoleRoute>} />
               </Routes>
             </main>
             <Footer />

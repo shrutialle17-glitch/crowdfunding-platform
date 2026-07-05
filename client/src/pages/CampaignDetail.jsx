@@ -6,8 +6,8 @@ import { useAuth } from "../context/AuthContext";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { ProgressBar } from "../components/ui/ProgressBar";
-//import { DonationModal } from '../components/campaign/DonationModal';
-//import { CommentsSection } from '../components/campaign/CommentsSection';
+import { DonationModal } from '../components/campaign/DonationModal';
+import { CommentsSection } from '../components/campaign/CommentsSection';
 import { QRShareModal } from "../components/campaign/QRShareModal";
 import { CampaignCard } from "../components/campaign/CampaignCard";
 import { TrustBadge } from "../components/ui/TrustBadge";
@@ -42,8 +42,8 @@ export const CampaignDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("story");
-  //const [optimisticBookmark, setOptimisticBookmark] = useState(null);
-  //const [optimisticFollow, setOptimisticFollow] = useState(null);
+  const [optimisticBookmark, setOptimisticBookmark] = useState(null);
+  const [optimisticFollow, setOptimisticFollow] = useState(null);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ export const CampaignDetail = () => {
     },
   });
 
-  /*const toggleBookmark = useMutation({
+  const toggleBookmark = useMutation({
     mutationFn: async () => {
       const res = await api.post(`/users/me/bookmarks/${campaign?._id}`);
       return res.data.data;
@@ -144,15 +144,7 @@ export const CampaignDetail = () => {
   const handleFollow = () => {
     if (!user) return navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
     toggleFollow.mutate();
-  };*/
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!campaign) {
-    return <div>Campaign not found</div>;
-  }
+  };
 
   const handleShare = () => {
     setIsQRModalOpen(true);
@@ -411,12 +403,9 @@ export const CampaignDetail = () => {
           )}
 
           {/* Comments */}
-          {activeTab === "comments" && (
+          {activeTab === 'comments' && (
             <section>
-              {/*CommentsSection campaignId={campaign._id} */}
-              <div className="text-center py-10">
-                Comments will be available soon.
-              </div>
+              <CommentsSection campaignId={campaign._id} />
             </section>
           )}
         </div>
@@ -464,7 +453,7 @@ export const CampaignDetail = () => {
               </div>
             </div>
 
-            {/*<Button
+            <Button
               className="w-full py-4 text-lg mb-4"
               onClick={() => {
                 if (!user) {
@@ -477,10 +466,10 @@ export const CampaignDetail = () => {
               }}
             >
               Back this project
-            </Button> */}
+            </Button>
 
             <div className="flex flex-col gap-4">
-              {/* <div className="flex gap-4">
+              <div className="flex gap-4">
                 <Button
                   variant={isLiked ? "primary" : "outline"}
                   className="flex-1 gap-2"
@@ -501,7 +490,7 @@ export const CampaignDetail = () => {
                   />
                   {isBookmarked ? "Saved" : "Save"}
                 </Button>
-              </div> */}
+              </div>
               <Button
                 variant="outline"
                 className="w-full gap-2"
@@ -542,18 +531,17 @@ export const CampaignDetail = () => {
               </div>
             </div>
             
-           {/* {user?.id !== campaign.creator?._id &&
-              {
-                <Button
-                variant={isFollowing ? "outline" : "primary"}
-                size="sm"
+            {user?.id !== campaign.creator?._id && (
+              <Button 
+                variant={isFollowing ? "outline" : "primary"} 
+                size="sm" 
                 className="shrink-0"
                 onClick={handleFollow}
                 disabled={toggleFollow.isPending}
               >
-                {isFollowing ? "Following" : "Follow"}
+                {isFollowing ? 'Following' : 'Follow'}
               </Button>
-              }}*/}
+            )}
           </div>
         </div>
       </div>
@@ -570,19 +558,20 @@ export const CampaignDetail = () => {
         </div>
       )}
 
-      {/*<DonationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        campaign={campaign}
+      <DonationModal  
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        campaign={campaign} 
         onSuccess={() => refetch()}
-      /> */}
-
-      <QRShareModal
-        isOpen={isQRModalOpen}
-        onClose={() => setIsQRModalOpen(false)}
-        url={window.location.href}
-        title={campaign.title}
       />
+
+      <QRShareModal 
+        isOpen={isQRModalOpen} 
+        onClose={() => setIsQRModalOpen(false)} 
+        url={window.location.href} 
+        title={campaign.title} 
+      />
+      
     </div>
   );
 };

@@ -26,7 +26,6 @@ export const RecentActivityFeed = () => {
         <Clock className="w-5 h-5 text-primary" />
         <h3 className="text-h4">Recent Activity</h3>
       </div>
-      
       <div className="space-y-4">
         {recentDonations.map((donation) => (
           <div key={donation._id} className="flex items-start gap-4">
@@ -39,7 +38,6 @@ export const RecentActivityFeed = () => {
                 </div>
               )}
             </div>
-            
             <div className="flex-1 min-w-0">
               <p className="text-sm">
                 <span className="font-bold text-text-primary">{donation.donor?.name || 'Anonymous'}</span> donated{' '}
