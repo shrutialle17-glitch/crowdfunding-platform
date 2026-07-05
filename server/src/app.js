@@ -7,8 +7,7 @@ const rateLimit = require('express-rate-limit');
 const errorHandler = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/authRoutes');
-const campaignRoutes = require('./routes/campaignRoutes');
-const kycRoutes = require('./routes/kycRoutes');
+
 
 const app = express();
 
@@ -38,11 +37,6 @@ app.use(cookieParser());
 // Authentication
 app.use('/api/v1/auth', authRoutes);
 
-// Campaign
-app.use('/api/v1/campaigns', campaignRoutes);
-
-// KYC
-app.use('/api/v1/kyc', kycRoutes);
 
 // Home
 app.get('/', (req, res) => {
