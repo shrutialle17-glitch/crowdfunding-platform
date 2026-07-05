@@ -14,6 +14,9 @@ const updateRoutes = require('./routes/updateRoutes');
 const userRoutes = require('./routes/userRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes');
 
+const kycRoutes = require('./routes/kycRoutes');
+const reportRoutes = require('./routes/reportRoutes');
+
 const donationRoutes = require('./routes/donationRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const socialRoutes = require('./routes/socialRoutes');
@@ -48,6 +51,9 @@ app.use('/api/v1/dashboard', dashboardRoutes);
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/leaderboard', leaderboardRoutes);
+
+app.use('/api/v1/kyc', kycRoutes);
+app.use('/api/v1/reports', reportRoutes);
 
 app.use('/api/v1', donationRoutes);
 app.use('/api/v1', commentRoutes);

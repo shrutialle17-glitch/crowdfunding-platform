@@ -57,10 +57,6 @@ export const Explore = () => {
         </div>
       </div>
 
-      <div className="mb-8">
-        <RecentActivityFeed />
-      </div>
-
       <div className="flex overflow-x-auto pb-4 mb-8 gap-2 scrollbar-hide">
         {CATEGORIES.map(cat => (
           <button
@@ -91,6 +87,10 @@ export const Explore = () => {
           <p className="text-body text-text-secondary">Try adjusting your filters or search term.</p>
         </div>
       )}
+
+      <div className="mt-12 mb-8">
+        <RecentActivityFeed />
+      </div>
     </div>
   );
 };

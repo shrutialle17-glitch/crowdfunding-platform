@@ -162,7 +162,7 @@ exports.getCreatorDashboard = async (req, res, next) => {
   }
 };
 
-/*exports.getAdminDashboard = async (req, res, next) => {
+exports.getAdminDashboard = async (req, res, next) => {
   try {
     // Platform stats
     const totalUsers = await User.countDocuments();
@@ -259,7 +259,7 @@ exports.getCreatorDashboard = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};*/
+};
 
 exports.getCreatorSupporters = async (req, res, next) => {
   try {

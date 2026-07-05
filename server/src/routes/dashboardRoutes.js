@@ -17,6 +17,6 @@ router.get('/creator', auth, roleGuard(['creator', 'admin']), getCreatorDashboar
 router.get('/creator/supporters', auth, roleGuard(['creator', 'admin']), getCreatorSupporters);
 
 // Admin Dashboard
-//router.get('/admin', auth, roleGuard(['admin']), getAdminDashboard);
+router.get('/admin', auth, roleGuard(['admin']), getAdminDashboard);
 
 module.exports = router;

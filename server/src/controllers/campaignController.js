@@ -130,7 +130,7 @@ exports.createCampaign = async (req, res, next) => {
       status: 'pending', // Requires admin approval
     });
 
-    /*const admins = await User.find({ role: 'admin' });
+    const admins = await User.find({ role: 'admin' });
     for (const admin of admins) {
       await notificationService.createNotification({
         userId: admin._id,
@@ -139,7 +139,7 @@ exports.createCampaign = async (req, res, next) => {
         message: `A new campaign "${campaign.title}" has been submitted for review.`,
         link: '/admin/approvals'
       });
-    }*/
+    }
 
     res.status(201).json({ success: true, data: campaign });
   } catch (error) {
