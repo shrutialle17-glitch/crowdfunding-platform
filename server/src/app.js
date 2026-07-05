@@ -7,7 +7,21 @@ const rateLimit = require('express-rate-limit');
 const errorHandler = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/authRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
+const campaignRoutes = require('./routes/campaignRoutes');
+const updateRoutes = require('./routes/updateRoutes');
+
+const userRoutes = require('./routes/userRoutes');
+const leaderboardRoutes = require('./routes/leaderboardRoutes');
+
+const kycRoutes = require('./routes/kycRoutes');
+const reportRoutes = require('./routes/reportRoutes');
+
+const donationRoutes = require('./routes/donationRoutes');
+const commentRoutes = require('./routes/commentRoutes');
+const socialRoutes = require('./routes/socialRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 const app = express();
 
@@ -36,6 +50,20 @@ app.use(cookieParser());
 
 // Authentication
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/campaigns', campaignRoutes);
+app.use('/api/v1/updates', updateRoutes);
+app.use('/api/v1/dashboard', dashboardRoutes);
+
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/leaderboard', leaderboardRoutes);
+
+app.use('/api/v1/kyc', kycRoutes);
+app.use('/api/v1/reports', reportRoutes);
+
+app.use('/api/v1', donationRoutes);
+app.use('/api/v1', commentRoutes);
+app.use('/api/v1', socialRoutes);
+app.use('/api/v1/notifications', notificationRoutes);
 
 
 // Home

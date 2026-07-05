@@ -4,18 +4,17 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import api from '../api/axios';
 import { Button } from '../components/ui/Button';
-import { ShieldCheck, TrendingUp, Globe } from "lucide-react";
-//import { CampaignCard } from '../components/campaign/CampaignCard';
-//import { ArrowRight, ShieldCheck, HeartHandshake, TrendingUp, Globe } from 'lucide-react';
+import { CampaignCard } from '../components/campaign/CampaignCard';
+import { ArrowRight, ShieldCheck, HeartHandshake, TrendingUp, Globe } from 'lucide-react';
 
 export const Landing = () => {
-  /*const { data: trending } = useQuery({
+  const { data: trending } = useQuery({
     queryKey: ['trending-campaigns'],
     queryFn: async () => {
       const res = await api.get('/campaigns/trending');
       return res.data.data;
     }
-  });*/
+  });
 
   const fadeUpParams = {
     initial: { opacity: 0, y: 30 },
@@ -101,6 +100,36 @@ export const Landing = () => {
       </section>
 
       {/* Trending Campaigns */}
+      <section className="py-24 bg-surface">
+        <div className="max-w-[1600px] mx-auto px-6">
+          <div className="flex justify-between items-end mb-12">
+            <motion.div {...fadeUpParams}>
+              <h2 className="text-4xl font-heading font-bold mb-4">Trending Now</h2>
+              <p className="text-text-secondary text-lg max-w-xl">Support the most popular causes capturing the community's attention right now.</p>
+            </motion.div>
+            <Link to="/explore" className="hidden sm:flex items-center gap-2 text-primary font-semibold hover:text-primary-hover transition-colors">
+              View All <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {trending ? trending.slice(0, 3).map((campaign, idx) => (
+              <motion.div key={campaign._id} {...fadeUpParams} transition={{ delay: idx * 0.1 }}>
+                <CampaignCard campaign={campaign} />
+              </motion.div>
+            )) : (
+              // Skeletons
+              [1,2,3].map(i => <div key={i} className="h-96 bg-border/50 rounded-2xl animate-pulse" />)
+            )}
+          </div>
+          
+          <div className="mt-8 text-center sm:hidden">
+             <Link to="/explore">
+              <Button variant="outline" className="w-full">View All Campaigns</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
       
       {/* How it works */}
       <section className="py-24 bg-background">

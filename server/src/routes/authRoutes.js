@@ -10,7 +10,7 @@ const loginLimiter = rateLimit({
 });
 
 router.post('/register', register);
-router.post('/login', loginLimiter, login);
+router.post('/login', login);
 router.post('/refresh', refresh);
 router.post('/logout', logout);
 
