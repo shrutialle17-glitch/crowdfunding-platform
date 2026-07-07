@@ -16,7 +16,7 @@ exports.getLeaderboard = async (req, res, next) => {
 
     if (type === 'donors') {
       const topDonors = await Donation.aggregate([
-        { $match: { status: 'completed', isAnonymous: false, ...dateFilter } },
+        { $match: { paymentStatus: 'completed', isAnonymous: false, ...dateFilter } },
         { $group: { _id: '$donor', totalAmount: { $sum: '$amount' } } },
         { $sort: { totalAmount: -1 } },
         { $limit: 50 },

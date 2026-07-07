@@ -11,7 +11,7 @@ exports.checkAndAwardBadges = async (userId) => {
 
     // Check "First Donation"
     if (!user.badges.includes('First Donation')) {
-      const donationCount = await Donation.countDocuments({ donor: userId, status: 'completed' });
+      const donationCount = await Donation.countDocuments({ donor: userId, paymentStatus: 'completed' });
       if (donationCount >= 1) {
         newBadges.push('First Donation');
       }
@@ -19,7 +19,7 @@ exports.checkAndAwardBadges = async (userId) => {
 
     // Check "Loyal Supporter" (>= 5 donations)
     if (!user.badges.includes('Loyal Supporter')) {
-      const donationCount = await Donation.countDocuments({ donor: userId, status: 'completed' });
+      const donationCount = await Donation.countDocuments({ donor: userId, paymentStatus: 'completed' });
       if (donationCount >= 5) {
         newBadges.push('Loyal Supporter');
       }

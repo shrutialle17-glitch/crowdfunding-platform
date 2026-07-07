@@ -20,21 +20,64 @@ export const DonationModal = ({ isOpen, onClose, campaign, onSuccess }) => {
     
     setLoading(true);
     try {
-      // Simulate payment delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const res = await api.post(`/campaigns/${campaign._id}/donate`, {
-        amount: Number(amount),
-        isAnonymous
+      // 1. Create Order
+      const orderRes = await api.post(`/campaigns/${campaign._id}/orders`, {
+        amount: Number(amount)
       });
       
-      setReceiptId(res.data.data._id); // Assuming we can use this to download later
-      setStep('success');
-      if (onSuccess) onSuccess();
+      const { order, receiptId: createdReceiptId } = orderRes.data.data;
+
+      // 2. Open Razorpay Checkout
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID, 
+        amount: order.amount, 
+        currency: order.currency,
+        name: "KindFund",
+        description: `Donation for ${campaign.title}`,
+        order_id: order.id,
+        handler: async function (response) {
+          try {
+            // 3. Verify Payment
+            const verifyRes = await api.post(`/campaigns/${campaign._id}/verify-payment`, {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              amount: Number(amount),
+              isAnonymous,
+              receiptId: createdReceiptId
+            });
+
+            setReceiptId(verifyRes.data.data._id); // This is the donation ID in Mongo
+            setStep('success');
+            if (onSuccess) onSuccess();
+          } catch (verifyError) {
+            console.error('Payment verification failed:', verifyError);
+            alert('Payment verification failed. Please contact support.');
+          } finally {
+            setLoading(false);
+          }
+        },
+        theme: {
+          color: "#04301e" // KindFund dark forest green
+        },
+        modal: {
+          ondismiss: function() {
+            setLoading(false);
+          }
+        }
+      };
+      
+      const rzp1 = new window.Razorpay(options);
+      rzp1.on('payment.failed', function (response){
+        console.error(response.error);
+        alert(response.error.description);
+        setLoading(false);
+      });
+      rzp1.open();
+
     } catch (error) {
       console.error(error);
-      alert('Mock payment failed');
-    } finally {
+      alert('Order creation failed');
       setLoading(false);
     }
   };
@@ -116,26 +159,41 @@ export const DonationModal = ({ isOpen, onClose, campaign, onSuccess }) => {
                     {loading ? 'Processing...' : `Donate ₹${amount ? Number(amount).toLocaleString() : '0'}`}
                   </Button>
                   <p className="text-xs text-center text-text-secondary mt-4">
-                    This is a mock transaction. No real payment will be processed.
+                    Secured by Razorpay.
                   </p>
                 </div>
               </form>
             </div>
           ) : (
-            <div className="p-8 text-center">
-              <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-8 text-center"
+            >
+              <motion.div 
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6 relative"
+              >
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="absolute inset-0 border-4 border-accent rounded-full"
+                />
+                <svg className="w-10 h-10 text-accent relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
-              </div>
-              <h2 className="text-h2 mb-2">Thank you!</h2>
-              <p className="text-body text-text-secondary mb-8">Your mock donation was successful. Your support makes a difference.</p>
+              </motion.div>
+              <h2 className="text-h2 mb-2 text-primary">Payment Successful!</h2>
+              <p className="text-body text-text-secondary mb-8">Thank you for your generous donation. Your support directly helps {campaign.title}.</p>
               
               <div className="space-y-3">
                 <Button 
                   onClick={handleDownloadReceipt}
                   variant="outline" 
-                  className="w-full py-3"
+                  className="w-full py-3 hover:bg-primary/5 border-primary/20"
                 >
                   Download Receipt
                 </Button>
@@ -143,7 +201,7 @@ export const DonationModal = ({ isOpen, onClose, campaign, onSuccess }) => {
                   Return to Campaign
                 </Button>
               </div>
-            </div>
+            </motion.div>
           )}
         </motion.div>
       </div>

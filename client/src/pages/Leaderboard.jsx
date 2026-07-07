@@ -105,8 +105,8 @@ export const Leaderboard = () => {
                           )}
                           {type === 'donors' && user.badges?.length > 0 && (
                             <div className="flex gap-1 mt-1">
-                              {user.badges.slice(0, 3).map(b => (
-                                <Badge key={b.id} variant="success" className="text-[10px] px-1.5 py-0">{b.name}</Badge>
+                              {user.badges.slice(0, 3).map((b, i) => (
+                                <Badge key={i} variant="success" className="text-[10px] px-1.5 py-0">{b}</Badge>
                               ))}
                             </div>
                           )}

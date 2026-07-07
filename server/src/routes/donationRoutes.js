@@ -6,10 +6,13 @@ const {
   getCampaignDonations, 
   getUserDonations, 
   downloadReceipt,
-  getRecentDonations
+  getRecentDonations,
+  createOrder,
+  verifyPayment
 } = require('../controllers/donationController');
 
-router.post('/campaigns/:id/donate', auth, createDonation);
+router.post('/campaigns/:id/orders', auth, createOrder);
+router.post('/campaigns/:id/verify-payment', auth, verifyPayment);
 router.get('/campaigns/:id/donations', getCampaignDonations);
 
 // Global recent donations

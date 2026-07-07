@@ -123,7 +123,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
         <Link to="/">
           <h1 className="text-h3 text-primary font-heading font-bold">
             KindFund

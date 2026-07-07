@@ -65,7 +65,7 @@ export const Landing = () => {
             {...fadeUpParams}
             transition={{ delay: 0.3 }}
           >
-            <Link to="/create">
+            <Link to="/login">
               <Button className="w-full sm:w-auto px-8 py-4 text-lg">Start a Campaign</Button>
             </Link>
             <Link to="/explore">

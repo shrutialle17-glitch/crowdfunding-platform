@@ -2,13 +2,15 @@ const Donation = require('../models/Donation');
 const Campaign = require('../models/Campaign');
 const receiptService = require('../services/receiptService');
 const notificationService = require('../services/notificationService');
-const crypto = require('crypto');
-const User = require('../models/User');
 const badgeService = require('../services/badgeService');
+const crypto = require('crypto');
+const Report = require('../models/Report');
+const User = require('../models/User');
+const Razorpay = require('razorpay');
 
-exports.createDonation = async (req, res, next) => {
+exports.createOrder = async (req, res, next) => {
   try {
-    const { amount, isAnonymous, rewardTierId } = req.body;
+    const { amount } = req.body;
     const campaignId = req.params.id;
 
     const campaign = await Campaign.findById(campaignId);
@@ -16,8 +18,54 @@ exports.createDonation = async (req, res, next) => {
        return res.status(400).json({ success: false, error: { message: 'Invalid or unapproved campaign', code: 'BAD_REQUEST' } });
     }
 
-    // Generate a receipt ID
+    const instance = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_SECRET_KEY,
+    });
+
     const receiptId = 'REC-' + crypto.randomBytes(6).toString('hex').toUpperCase();
+
+    const options = {
+      amount: Math.round(Number(amount) * 100), // amount in smallest currency unit (paise)
+      currency: "INR",
+      receipt: receiptId,
+    };
+
+    const order = await instance.orders.create(options);
+    
+    res.status(200).json({ success: true, data: { order, receiptId } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.verifyPayment = async (req, res, next) => {
+  try {
+    const { 
+      razorpay_order_id, 
+      razorpay_payment_id, 
+      razorpay_signature, 
+      amount, 
+      isAnonymous, 
+      rewardTierId, 
+      receiptId 
+    } = req.body;
+    const campaignId = req.params.id;
+
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_SECRET_KEY)
+      .update(body.toString())
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      return res.status(400).json({ success: false, error: { message: "Invalid payment signature", code: "PAYMENT_FAILED" } });
+    }
+
+    const campaign = await Campaign.findById(campaignId);
+    if (!campaign || campaign.status !== 'approved') {
+       return res.status(400).json({ success: false, error: { message: 'Invalid or unapproved campaign', code: 'BAD_REQUEST' } });
+    }
 
     const donation = await Donation.create({
       donor: req.user ? req.user.id : null,
@@ -25,7 +73,12 @@ exports.createDonation = async (req, res, next) => {
       amount: Number(amount),
       isAnonymous: Boolean(isAnonymous),
       rewardTier: rewardTierId || null,
-      receiptId
+      receiptId,
+      paymentStatus: 'completed',
+      razorpayOrderId: razorpay_order_id,
+      razorpayPaymentId: razorpay_payment_id,
+      razorpaySignature: razorpay_signature,
+      transactionDate: new Date()
     });
 
     // Update campaign amount
@@ -182,7 +235,7 @@ exports.downloadReceipt = async (req, res, next) => {
 
 exports.getRecentDonations = async (req, res, next) => {
   try {
-    const recent = await Donation.find({ status: 'completed' })
+    const recent = await Donation.find({ paymentStatus: 'completed' })
       .sort({ createdAt: -1 })
       .limit(10)
       .populate('campaign', 'title coverImage category')
