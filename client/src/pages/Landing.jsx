@@ -26,7 +26,7 @@ export const Landing = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 sm:py-32">
+      <section className="relative overflow-hidden py-16 sm:py-24 lg:py-32">
         <img 
           src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?q=80&w=2500&auto=format&fit=crop" 
           alt="Hero Background" 
@@ -34,7 +34,7 @@ export const Landing = () => {
         />
         <div className="absolute inset-0 bg-surface/85 backdrop-blur-[2px] z-0 pointer-events-none" />
         
-        <div className="max-w-[1600px] mx-auto px-6 relative z-10 text-center">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -46,14 +46,14 @@ export const Landing = () => {
           </motion.div>
           
           <motion.h1 
-            className="text-5xl sm:text-7xl font-heading font-extrabold text-text-primary tracking-tight mb-8 max-w-4xl mx-auto leading-tight"
+            className="text-4xl sm:text-5xl lg:text-7xl font-heading font-extrabold text-text-primary tracking-tight mb-8 max-w-4xl mx-auto leading-tight"
             {...fadeUpParams}
           >
             Fund the ideas that <span className="text-primary">change the world</span>.
           </motion.h1>
           
           <motion.p 
-            className="text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto mb-10"
+            className="text-base sm:text-lg lg:text-xl text-text-secondary max-w-2xl mx-auto mb-10"
             {...fadeUpParams}
             transition={{ delay: 0.2 }}
           >
