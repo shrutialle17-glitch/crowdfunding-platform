@@ -1,10 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { UserCircle, Sun, Moon, Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -37,7 +31,6 @@ import { Register } from "./pages/auth/Register";
 import { NotificationDropdown } from "./components/layout/NotificationDropdown";
 import { Footer } from "./components/layout/Footer";
 import { Button } from "./components/ui/Button";
-import { UserCircle, Sun, Moon } from "lucide-react";
 import { useDarkMode } from "./hooks/useDarkMode";
 
 import { DonorDashboard } from "./pages/dashboard/DonorDashboard";
@@ -64,6 +57,72 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-surface/90 border-b border-border">
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-border bg-surface">
+          <div className="flex flex-col p-4 space-y-3">
+            <Link to="/" onClick={() => setMobileOpen(false)} className="py-2">
+              Home
+            </Link>
+
+            <Link
+              to="/explore"
+              onClick={() => setMobileOpen(false)}
+              className="py-2"
+            >
+              Explore
+            </Link>
+
+            <Link
+              to="/leaderboard"
+              onClick={() => setMobileOpen(false)}
+              className="py-2"
+            >
+              Leaderboard
+            </Link>
+
+            <DarkModeToggle />
+
+            {!user ? (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-2"
+                >
+                  Login
+                </Link>
+
+                <Link to="/register" onClick={() => setMobileOpen(false)}>
+                  <Button className="w-full">Register</Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to={user.role === "creator" ? "/creator" : "/donor"}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Dashboard
+                </Link>
+
+                {user.role === "creator" && (
+                  <Link to="/create" onClick={() => setMobileOpen(false)}>
+                    Start Campaign
+                  </Link>
+                )}
+
+                <button
+                  onClick={logout}
+                  className="w-full py-2 rounded-lg bg-primary text-white"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
         <Link to="/">
           <h1 className="text-h3 text-primary font-heading font-bold">
@@ -202,76 +261,6 @@ const Navbar = () => {
             </>
           )}
         </nav>
-        {/* Mobile Menu */}
-        {mobileOpen && (
-          <div className="md:hidden border-t border-border bg-surface">
-            <div className="flex flex-col p-4 space-y-3">
-              <Link
-                to="/"
-                onClick={() => setMobileOpen(false)}
-                className="py-2"
-              >
-                Home
-              </Link>
-
-              <Link
-                to="/explore"
-                onClick={() => setMobileOpen(false)}
-                className="py-2"
-              >
-                Explore
-              </Link>
-
-              <Link
-                to="/leaderboard"
-                onClick={() => setMobileOpen(false)}
-                className="py-2"
-              >
-                Leaderboard
-              </Link>
-
-              <DarkModeToggle />
-
-              {!user ? (
-                <>
-                  <Link
-                    to="/login"
-                    onClick={() => setMobileOpen(false)}
-                    className="py-2"
-                  >
-                    Login
-                  </Link>
-
-                  <Link to="/register" onClick={() => setMobileOpen(false)}>
-                    <Button className="w-full">Register</Button>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to={user.role === "creator" ? "/creator" : "/donor"}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    Dashboard
-                  </Link>
-
-                  {user.role === "creator" && (
-                    <Link to="/create" onClick={() => setMobileOpen(false)}>
-                      Start Campaign
-                    </Link>
-                  )}
-
-                  <button
-                    onClick={logout}
-                    className="w-full py-2 rounded-lg bg-primary text-white"
-                  >
-                    Logout
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </header>
   );
