@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { UserCircle, Sun, Moon, Menu, X } from "lucide-react";
+import { UserCircle, Sun, Moon, Menu, X, HeartHandshake } from "lucide-react";
 import { useState } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -124,7 +124,8 @@ const Navbar = () => {
         </div>
       )}
       <div className="max-w-8xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-        <Link to="/">
+        <Link to="/" className="flex items-center gap-2">
+          <HeartHandshake className="w-8 h-8 text-primary" />
           <h1 className="text-h3 text-primary font-heading font-bold">
             KindFund
           </h1>
